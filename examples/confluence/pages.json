@@ -1,0 +1,62 @@
+{
+  "batches": [
+    {
+      "pages": [
+        {
+          "page_id": "1001",
+          "title": "Order Eligibility Baseline",
+          "space": "DEMO",
+          "parent_id": null,
+          "path": "Order Eligibility/Baseline",
+          "version": 1,
+          "updated_at": "2026-01-01T09:00:00+00:00",
+          "url": "https://confluence.example/pages/1001",
+          "body": "# Order Eligibility Baseline\n\nDefines the initial eligibility rule.",
+          "attachments": [],
+          "knowledge": [
+            {"type":"requirement","name":"REQ-100","system":"DEMO-SYSTEM","module":["Order Eligibility"],"section":"Overview","claims":{"phase":"baseline"}},
+            {"type":"business_rule","name":"Eligibility Rule","system":"DEMO-SYSTEM","module":["Order Eligibility"],"section":"2.1","claims":{"minimum_amount":100}},
+            {"type":"database_table","name":"eligibility_result","system":"DEMO-SYSTEM","module":["Order Eligibility"],"section":"3.1","claims":{"partition_field":"dt"}}
+          ]
+        },
+        {
+          "page_id": "1002",
+          "title": "Order Eligibility Update",
+          "space": "DEMO",
+          "parent_id": "1001",
+          "path": "Order Eligibility/Update",
+          "version": 2,
+          "updated_at": "2026-02-01T09:00:00+00:00",
+          "url": "https://confluence.example/pages/1002",
+          "body": "# Order Eligibility Update\n\nAdjusts the minimum amount.",
+          "attachments": [],
+          "knowledge": [
+            {"type":"requirement","name":"REQ-120","system":"DEMO-SYSTEM","module":["Order Eligibility"],"section":"Overview","claims":{"phase":"update"}},
+            {"type":"business_rule","name":"Eligibility Rule","system":"DEMO-SYSTEM","module":["Order Eligibility"],"section":"2.1","claims":{"minimum_amount":120}},
+            {"type":"database_table","name":"eligibility_result","system":"DEMO-SYSTEM","module":["Order Eligibility"],"section":"3.1","claims":{"partition_field":"dt"}}
+          ]
+        }
+      ]
+    },
+    {
+      "pages": [
+        {
+          "page_id": "1003",
+          "title": "Order Eligibility Follow-up",
+          "space": "DEMO",
+          "parent_id": "1001",
+          "path": "Order Eligibility/Follow-up",
+          "version": 1,
+          "updated_at": "2026-03-01T09:00:00+00:00",
+          "url": "https://confluence.example/pages/1003",
+          "body": "# Order Eligibility Follow-up\n\nAdds a post-decision restriction.",
+          "attachments": [{"filename":"field-dictionary.xlsx","content_type":"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet","version":1,"size":2048,"attachment_id":"A-1003-1","processed":false,"processing_status":"pending"}],
+          "knowledge": [
+            {"type":"requirement","name":"REQ-140","system":"DEMO-SYSTEM","module":["Order Eligibility"],"section":"Overview","claims":{"phase":"follow-up"}},
+            {"type":"business_rule","name":"Post Decision Rule","system":"DEMO-SYSTEM","module":["Order Eligibility"],"section":"2.2","claims":{"repeat_decision":"forbidden"}}
+          ]
+        }
+      ]
+    }
+  ]
+}
