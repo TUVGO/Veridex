@@ -9,7 +9,7 @@ Evidence-driven QA workflow and knowledge engine for AI-assisted testing.
 
 [English](#english) · [中文](#中文)
 
-<img src="docs/assets/veridex-hero.webp" alt="Veridex" width="100%" />
+<img src="docs/assets/veridex-hero.png" alt="Veridex" width="100%" />
 
 ![Python](https://img.shields.io/badge/Python-3.10%2B-blue)
 ![Status](https://img.shields.io/badge/status-pre--alpha-orange)
