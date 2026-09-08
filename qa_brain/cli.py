@@ -12,7 +12,7 @@ from .tasks import create_rich_extraction_tasks
 
 
 def build_parser():
-    parser = argparse.ArgumentParser(description="QA Brain Phase 1A")
+    parser = argparse.ArgumentParser(description="Veridex knowledge and ingestion CLI")
     commands = parser.add_subparsers(dest="area", required=True)
 
     confluence = commands.add_parser("confluence").add_subparsers(dest="command", required=True)
@@ -128,5 +128,5 @@ def main(argv=None):
         print(json.dumps(result, ensure_ascii=False, indent=2, default=asdict))
         return 0
     except (OSError, ValueError, KeyError, TypeError, json.JSONDecodeError) as exc:
-        print(f"QA Brain 未完成：{exc}")
+        print(f"Veridex 未完成：{exc}")
         return 2
