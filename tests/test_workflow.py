@@ -47,7 +47,7 @@ class Checks(unittest.TestCase):
         }
         Path(os.environ["QA_TEST_DATA_REGISTRY"]).write_text(json.dumps(registry), encoding="utf-8")
         Path(os.environ["QA_UAT_WRITE_AUDIT_PATH"]).write_text(
-            json.dumps({"status": "success", "operation": "insert"}) + "\n", encoding="utf-8"
+            json.dumps({"status": "success", "operation": "insert"}) + "\\n", encoding="utf-8"
         )
         equal(self, "count", 3, 3)
 '''
