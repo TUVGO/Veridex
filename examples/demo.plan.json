@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "project": "Veridex synthetic demo",
+  "environment": "demo",
+  "requirement_version": "demo-v1",
+  "system_version": "synthetic-v1",
+  "source": {
+    "path": "demo_requirement.md",
+    "sha256": "9dda69c9f19a7fec2827139f1c4311582acd2a17aed1b0fc6cd5d81b0f17edb9",
+    "review_status": "confirmed",
+    "notes": "generic synthetic public demo"
+  },
+  "requirements": [
+    {"id":"R1","statement":"Positive amount is eligible","source_ref":"demo_requirement.md R1","rule_type":"business_filter","confirmed":true},
+    {"id":"R2","statement":"Order decision is unique","source_ref":"demo_requirement.md R2","rule_type":"data_constraint","confirmed":true}
+  ],
+  "cases": [
+    {"id":"TC-001","title":"Positive amount","requirement_id":"R1","jira_key":"DEMO-1","priority":"P1","module":"synthetic-order","tags":["synthetic"],"preconditions":"synthetic fixture","steps":["evaluate positive amount"],"test_data":"synthetic","expected":"amount > 0","rule_ids":["R1"],"mode":"automated","test":"demo_tests.OrderEligibilityTests.test_positive_amount","reason":""},
+    {"id":"TC-002","title":"Decision uniqueness","requirement_id":"R2","jira_key":"DEMO-2","priority":"P1","module":"synthetic-order","tags":["synthetic"],"preconditions":"synthetic fixture","steps":["check duplicate groups"],"test_data":"synthetic","expected":"duplicate groups = 0","rule_ids":["R2"],"mode":"automated","test":"demo_tests.OrderEligibilityTests.test_unique_decision","reason":""}
+  ],
+  "execution": {"cwd": ".", "timeout_seconds": 30},
+  "notes": ["public synthetic demo"]
+}
