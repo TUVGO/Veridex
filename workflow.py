@@ -264,8 +264,8 @@ def build_report(folder):
     executed = counts["PASS"] + counts["FAIL"]
     rate = f"{counts['PASS'] / executed:.1%}" if executed else "不适用（无完成判定的用例）"
     fully_passed = result["state"] == "COMPLETE" and counts["PASS"] == total
-    prefix = "演示数据；不代表 VW-V6 UAT 验收。" if plan["environment"] == "demo" else "UAT 结果仅覆盖本次计划，不代表全部需求验收。"
-    lines = ["# VW-V6 测试报告", "", prefix, "", f"- 批次：{result['run_id']}",
+    prefix = "演示数据；不代表实际 UAT 验收。" if plan["environment"] == "demo" else "UAT 结果仅覆盖本次计划，不代表全部需求验收。"
+    lines = ["# Veridex 测试报告", "", prefix, "", f"- 批次：{result['run_id']}",
              f"- 项目：{plan['project']}；环境：{plan['environment']}",
              f"- 需求版本：{plan['requirement_version']}；系统版本：{plan['system_version']}",
              f"- 需求复核状态：{plan['source']['review_status']}；SHA-256：{plan['source']['sha256']}",
