@@ -1,0 +1,19 @@
+name: tests
+
+on:
+  push:
+    branches: [ main, "codex/**", "feature/**" ]
+  pull_request:
+
+jobs:
+  unittest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Run unit tests
+        run: python -m unittest discover -s tests -v
+      - name: Run QA Brain synthetic demo
+        run: python qa_brain.py demo --output work/ci-qa-brain-demo

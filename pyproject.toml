@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "veridex"
+version = "0.1.0.dev0"
+description = "Evidence-driven QA workflow and knowledge engine for AI-assisted testing"
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [{ name = "TUVGO" }]
+keywords = ["qa", "testing", "ai", "evidence", "confluence", "automation"]
+classifiers = [
+  "Development Status :: 2 - Pre-Alpha",
+  "Intended Audience :: Developers",
+  "Topic :: Software Development :: Testing",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+]
+
+[project.scripts]
+veridex = "qa_brain.cli:main"
+
+[tool.setuptools]
+py-modules = ["workflow", "execute_case", "qa_evidence", "uat_write", "qa_brain"]
+
+[tool.setuptools.packages.find]
+include = ["qa_core*", "qa_brain*"]
