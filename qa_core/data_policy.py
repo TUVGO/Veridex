@@ -7,7 +7,7 @@ DATA_CLASSES = ("reference", "owned", "derived")
 def validate_reference_data(value):
     """Validate readonly aliases to existing environment data.
 
-    The plan intentionally stores aliases, not real VIN/account/customer values.
+    The plan intentionally stores aliases, not real account/order/customer identifiers.
     """
     if value is None:
         return []
