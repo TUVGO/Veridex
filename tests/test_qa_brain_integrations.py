@@ -19,7 +19,7 @@ class IntegrationTests(unittest.TestCase):
         self.root = Path(tempfile.mkdtemp(prefix="qa-brain-integrations-"))
         self.addCleanup(shutil.rmtree, self.root)
 
-    def _page(self, path, page_id, title, body, *, space="VW", version=1):
+    def _page(self, path, page_id, title, body, *, space="DEMO", version=1):
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(
             "---\n"
@@ -35,38 +35,38 @@ class IntegrationTests(unittest.TestCase):
 
     def test_cme_import_preserves_tables_links_assets_and_parent(self):
         export = self.root / "export"
-        home = export / "VW" / "Home.md"
-        child = export / "VW" / "Home" / "Child.md"
-        attachments = export / "VW" / "attachments"
+        home = export / "DEMO" / "Home.md"
+        child = export / "DEMO" / "Home" / "Child.md"
+        attachments = export / "DEMO" / "attachments"
         attachments.mkdir(parents=True)
         (attachments / "10.png").write_bytes(b"fake-image")
         (attachments / "11.xlsx").write_bytes(b"fake-xlsx")
         self._page(
-            home, "1", "精准维保线索下发",
-            "[子页面](Home/Child.md)\n\n"
-            "![流程图](attachments/10.png)\n\n"
-            "[字段字典](attachments/11.xlsx)\n\n"
-            "## 字段表\n\n"
-            "| 字段名 | 类型 | 字段描述 |\n"
+            home, "1", "Order Eligibility",
+            "[Child page](Home/Child.md)\n\n"
+            "![Flowchart](attachments/10.png)\n\n"
+            "[Field dictionary](attachments/11.xlsx)\n\n"
+            "## Field table\n\n"
+            "| field | type | description |\n"
             "| --- | --- | --- |\n"
-            "| vin | String | 车架号 |\n",
+            "| account_id | String | account identifier |\n",
         )
-        self._page(child, "2", "详细设计", "正文")
+        self._page(child, "2", "Detailed Design", "content")
 
         sources = self.root / "sources"
         result = import_cme_export(export, sources, self.root / "inventory.json")
         self.assertEqual(len(result["pages"]), 2)
-        meta = read_json(sources / "VW" / "1" / "metadata.json")
+        meta = read_json(sources / "DEMO" / "1" / "metadata.json")
         self.assertEqual(meta["table_count"], 1)
         self.assertEqual(meta["asset_count"], 2)
         self.assertFalse(meta["source_complete"])
         self.assertTrue(meta["visual_review_required"])
-        links = read_json(sources / "VW" / "1" / "links.json")
+        links = read_json(sources / "DEMO" / "1" / "links.json")
         self.assertEqual(links[0]["target_page_id"], "2")
-        tables = read_json(sources / "VW" / "1" / "tables.json")
-        self.assertEqual(tables[0]["headers"], ["字段名", "类型", "字段描述"])
+        tables = read_json(sources / "DEMO" / "1" / "tables.json")
+        self.assertEqual(tables[0]["headers"], ["field", "type", "description"])
         self.assertEqual(tables[0]["rows"][0][0], "vin")
-        self.assertEqual(read_json(sources / "VW" / "2" / "metadata.json")["parent_id"], "1")
+        self.assertEqual(read_json(sources / "DEMO" / "2" / "metadata.json")["parent_id"], "1")
 
     def test_cme_runner_sets_structured_settings_without_forwarding_qa_credentials(self):
         captured = {}
@@ -102,16 +102,16 @@ class IntegrationTests(unittest.TestCase):
 
     def test_docling_adapter_updates_asset_and_source_completeness(self):
         sources = self.root / "sources"
-        page = sources / "VW" / "1"
+        page = sources / "DEMO" / "1"
         page.mkdir(parents=True)
         attachment = self.root / "a.xlsx"
         attachment.write_bytes(b"xlsx")
         write_json(page / "metadata.json", {
-            "space": "VW", "page_id": "1", "missing_asset_count": 0,
+            "space": "DEMO", "page_id": "1", "missing_asset_count": 0,
             "pending_asset_count": 1, "source_complete": False, "source_incomplete": True,
         })
         write_json(page / "assets.json", [{
-            "kind": "attachment", "label": "字段字典", "target": "a.xlsx",
+            "kind": "attachment", "label": "Field dictionary", "target": "a.xlsx",
             "resolved_path": str(attachment), "exists": True, "extension": ".xlsx",
             "sha256": "abc", "parse_status": "pending", "needs_visual_review": False,
         }])
@@ -134,20 +134,20 @@ class IntegrationTests(unittest.TestCase):
 
     def test_rich_task_requires_table_attachment_outputs_and_visual_reads(self):
         sources = self.root / "sources"
-        page = sources / "VW" / "1"
+        page = sources / "DEMO" / "1"
         page.mkdir(parents=True)
         image = self.root / "flow.png"
         image.write_bytes(b"img")
         parsed = self.root / "parsed.md"
-        parsed.write_text("附件解析", encoding="utf-8")
+        parsed.write_text("parsed attachment", encoding="utf-8")
         write_json(page / "metadata.json", {
-            "page_id": "1", "title": "需求", "space": "VW", "version": 1,
-            "updated_at": "2026-09-08", "content_hash": text_hash("正文"),
+            "page_id": "1", "title": "Requirement", "space": "DEMO", "version": 1,
+            "updated_at": "2026-09-08", "content_hash": text_hash("content"),
             "raw_status": "active", "source_incomplete": False,
             "source_complete": True, "visual_review_required": True,
         })
-        (page / "content.md").write_text("正文", encoding="utf-8")
-        write_json(page / "tables.json", [{"table_id": "table-001", "headers": ["字段名"], "rows": [["vin"]]}])
+        (page / "content.md").write_text("content", encoding="utf-8")
+        write_json(page / "tables.json", [{"table_id": "table-001", "headers": ["field"], "rows": [["account_id"]]}])
         write_json(page / "links.json", [{"kind": "page", "target_page_id": "2"}])
         write_json(page / "assets.json", [
             {"exists": True, "needs_visual_review": True, "resolved_path": str(image), "parse_status": "parsed", "parser_output": {}},
@@ -156,7 +156,7 @@ class IntegrationTests(unittest.TestCase):
         ])
         tasks = self.root / "tasks"
         create_rich_extraction_tasks(sources, tasks)
-        task = read_json(tasks / "VW" / "1" / "task.json")
+        task = read_json(tasks / "DEMO" / "1" / "task.json")
         self.assertEqual(task["schema_version"], 2)
         self.assertEqual(task["structured_sources"]["tables"][0]["rows"][0][0], "vin")
         self.assertIn(str(image), task["required_visual_reads"])
