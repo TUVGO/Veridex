@@ -105,7 +105,7 @@ The public repository contains only generic framework code. Real project endpoin
 
 ### REFERENCE
 
-Existing environment data used as input or an association anchor. An existing VIN, account, order, or other deeply linked record can be reused without rebuilding its entire data graph.
+Existing environment data used as input or an association anchor. An existing account, order, tenant, or other deeply linked record can be reused without rebuilding its entire data graph.
 
 - Query / SELECT: ✅
 - Use as input or join key: ✅
@@ -297,7 +297,7 @@ Veridex 把这些问题变成明确的 **Quality Gate**。
 
 ### REFERENCE — 既有参考数据
 
-UAT 中已经存在的数据，可以直接作为测试输入和关联锚点。例如一个已经关联大量历史数据的 VIN / 用户 / 订单，不需要为了测试重新完整造一套。
+UAT 中已经存在的数据，可以直接作为测试输入和关联锚点。例如一个已经关联大量历史数据的用户 / 订单 / 租户，不需要为了测试重新完整造一套。
 
 - 查询：✅
 - 作为接口参数：✅
