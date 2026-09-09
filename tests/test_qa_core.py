@@ -13,16 +13,16 @@ from qa_core.write_policy import bulk_approval_ready, validate_write_policy
 class CorePolicyTests(unittest.TestCase):
     def test_reference_data_is_alias_only_and_readonly(self):
         refs = validate_reference_data([{
-            "alias": "VIN_FULL_HISTORY",
-            "entity": "vehicle",
+            "alias": "ACCOUNT_FULL_HISTORY",
+            "entity": "account",
             "access": "readonly",
             "purpose": "linked fixture",
         }])
-        self.assertEqual(refs[0]["alias"], "VIN_FULL_HISTORY")
+        self.assertEqual(refs[0]["alias"], "ACCOUNT_FULL_HISTORY")
         with self.assertRaisesRegex(ValueError, "readonly"):
-            validate_reference_data([{"alias": "X", "entity": "vehicle", "access": "write"}])
+            validate_reference_data([{"alias": "X", "entity": "account", "access": "write"}])
         with self.assertRaisesRegex(ValueError, "真实标识"):
-            validate_reference_data([{"alias": "X", "entity": "vehicle", "access": "readonly", "vin": "REAL"}])
+            validate_reference_data([{"alias": "X", "entity": "account", "access": "readonly", "account_id": "REAL"}])
 
     def test_write_policy_defaults_readonly_and_bulk_has_two_gates(self):
         self.assertEqual(validate_write_policy({}, "demo")["scope"], "readonly")
