@@ -65,7 +65,7 @@ class IntegrationTests(unittest.TestCase):
         self.assertEqual(links[0]["target_page_id"], "2")
         tables = read_json(sources / "DEMO" / "1" / "tables.json")
         self.assertEqual(tables[0]["headers"], ["field", "type", "description"])
-        self.assertEqual(tables[0]["rows"][0][0], "vin")
+        self.assertEqual(tables[0]["rows"][0][0], "account_id")
         self.assertEqual(read_json(sources / "DEMO" / "2" / "metadata.json")["parent_id"], "1")
 
     def test_cme_runner_sets_structured_settings_without_forwarding_qa_credentials(self):
@@ -158,7 +158,7 @@ class IntegrationTests(unittest.TestCase):
         create_rich_extraction_tasks(sources, tasks)
         task = read_json(tasks / "DEMO" / "1" / "task.json")
         self.assertEqual(task["schema_version"], 2)
-        self.assertEqual(task["structured_sources"]["tables"][0]["rows"][0][0], "vin")
+        self.assertEqual(task["structured_sources"]["tables"][0]["rows"][0][0], "account_id")
         self.assertIn(str(image), task["required_visual_reads"])
         self.assertIn(str(parsed), task["required_reads"])
         self.assertIn("MUST inspect", task["instruction"])
