@@ -8,15 +8,15 @@ The generic core separates test data into three classes:
 
 ## Reference data
 
-Plans use aliases instead of storing real VIN/account/customer identifiers:
+Plans use aliases instead of storing real account/order/customer identifiers:
 
 ```json
 "reference_data": [
   {
-    "alias": "VIN_FULL_HISTORY",
-    "entity": "vehicle",
+    "alias": "ACCOUNT_FULL_HISTORY",
+    "entity": "account",
     "access": "readonly",
-    "purpose": "Use an existing vehicle with complete maintenance relationships"
+    "purpose": "Use an existing account with complete linked records"
   }
 ]
 ```
@@ -24,19 +24,15 @@ Plans use aliases instead of storing real VIN/account/customer identifiers:
 The real alias-to-value mapping belongs in a local/private profile such as
 `profiles-private/<project>/reference-data.json` and must not be committed.
 
-This lets a test use a deeply-linked existing VIN without granting ownership of that
-VIN or any existing row linked to it.
+This lets a test use a deeply-linked existing reference entity without granting ownership of that entity or any existing row linked to it.
 
 ## Ownership
 
 Ownership is record-level, not business-key-domain-level.
 
-A QA-created clue may reference an existing VIN, but the clue is owned only through
-the clue's unique identity recorded by `TestDataRegistry`. The VIN itself remains
-REFERENCE.
+A QA-created record may reference an existing account or order, but the new record is owned only through its unique identity recorded by `TestDataRegistry`. The referenced entity itself remains REFERENCE.
 
-Never delete by a broad condition such as `WHERE vin = ...` when that could match
-historical rows. Cleanup should target the exact identities registered by the run.
+Never delete by a broad condition such as `WHERE account_id = ...` when that could match historical rows. Cleanup should target the exact identities registered by the run.
 
 ## Derived rows
 
